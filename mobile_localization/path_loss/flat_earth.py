@@ -15,5 +15,5 @@ class FlatEarth:
   def path_loss(self, distance):
     l1 = -20 * np.log10(self.transmitter_height)
     l2 = -20 * np.log10(self.receiver_height)
-    lo = 120 + 10 * 4 * np.log10(distance)
+    lo = 40 * np.log10(distance)
     return l1 + l2 + lo

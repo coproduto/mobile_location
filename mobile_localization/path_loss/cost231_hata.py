@@ -15,18 +15,15 @@ class Cost231Hata:
     self.area_kind = area_kind
 
   def path_loss(self, distance):
-    if self.frequency < 150 or self.frequency > 2000:
-      raise ValueError('The frequency for the Cost231-Hata model is out of bounds')
-
-    c = 0
+    constant_factor = 46.3
+    frequency_factor = 33.9 * np.log10(self.frequency)
+    c = 3 if self.area_kind == AreaKind.URBAN else 0
+    base_height_factor = 13.82 * np.log10(self.transmitter_height)
+    distance_factor = (44.9 - 6.55 * np.log10(self.transmitter_height))) * np.log10(distance)
+    height_correction_factor = 0.8 + (1.1 * np.log10(self.frequency) * self.receiver_height) - 1.56 * np.log10(self.frequency)
     if self.area_kind == AreaKind.URBAN:
-      c = 3
+      height_correction_factor = 3.2 * np.log10(11.75 * self.receiver_height)**2 - 4.97
 
-    ar = (1.1 * np.log10(self.frequency) - 0.7) * self.receiver_height
-    - (1.56 * np.log(self.frequency) - 0.8)
-      
-    loss = 46.3 + 33.9 * np.log10(self.frequency)
-    - 13.82 * np.log10(self.transmitter_height)
-    - ar + (44.9 + 6.55 * np.log(self.transmitter_height)) * np.log(distance) + c
+    loss = constant_factor + frequency_factor - base_height_factor - height_correction_factor + distance_factor + c
 
     return loss

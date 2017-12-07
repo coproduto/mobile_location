@@ -13,13 +13,13 @@ class OkumuraHata:
      self.frequency = frequency
      self.transmitter_height = transmitter_height
      self.receiver_height = receiver_height
-     self.city_size = city_size,
+     self.city_size = city_size
      self.area_kind = area_kind
 
   def _height_correction(self):
-    if self.city_size == CitySize.LARGE and self.frequency <= 200:
+    if self.city_size.value == CitySize.LARGE.value and self.frequency <= 200:
       return 8.29 * (np.log10(1.54 * self.receiver_height)**2) - 1.1
-    elif self.city_size == CitySize.LARGE:
+    elif self.city_size == CitySize.LARGE.value:
       return 3.2 * (np.log10(11.75 * self.receiver_height)**2) - 4.97
     else:
       return 0.8 + (1.1 * np.log10(self.frequency) - 0.7) * self.receiver_height - 1.56 * np.log10(self.frequency)
@@ -29,7 +29,7 @@ class OkumuraHata:
     frequency_factor = 26.16 * np.log10(self.frequency)
     base_height_factor = 13.82 * np.log10(self.transmitter_height)
     distance_factor = (44.9 - 6.55 * np.log10(self.transmitter_height)) * np.log10(distance)
-    return constant_factor + frequency_factor - base_height_factor - self._height_correction() + self.distance_factor
+    return constant_factor + frequency_factor - base_height_factor - self._height_correction() + distance_factor
 
   def _suburban_loss(self, distance):
     frequency_factor = 2 * (np.log10(self.frequency/28.0)**2)
@@ -44,11 +44,11 @@ class OkumuraHata:
     return self._base_loss(distance) - frequency_factor - constant_factor
      
   def path_loss(self, distance):
-    if self.area_kind == AreaKind.URBAN:
+    if self.area_kind.value == AreaKind.URBAN.value:
       return self._base_loss(distance)
-    elif self.area_kind == AreaKind.SUBURBAN:
+    elif self.area_kind.value == AreaKind.SUBURBAN.value:
       return self._suburban_loss(distance)
-    elif self.area_kind == AreaKind.RURAL:
+    elif self.area_kind.value == AreaKind.RURAL.value:
       return self._rural_loss(distance)
     else:
-      raise ArgumentError("Invalid area type")
+      raise ValueError("Invalid area type")

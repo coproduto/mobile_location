@@ -13,9 +13,6 @@ class Ecc33:
     self.receiver_height = receiver_height
 
   def path_loss(self, distance):
-    if self.frequency < 900 or self.frequency > 1900:
-      raise ValueError('The frequency for the ECC-33 model is out of bounds')
-
     plfs = 92.4 + 20 * np.log10(distance) + 20 * np.log10(self.frequency/1000)
     plbm = 20.41 + 9.83 * np.log10(distance) + 7.894 * np.log10(self.frequency/1000)
     + 9.56 * (np.log10(self.frequency/1000)**2)

@@ -42,7 +42,7 @@ class Cost231:
     elif self.mean_building_height <= self.transmitter_height and distance < 0.5:
       k_a = k_a
 
-    if self.city_kind == CitySize.SMALL:
+    if self.city_kind.value == CitySize.SMALL.value:
       k_f = k_f + 0.7 * (self.frequency / 925 - 1)
     else:
       k_f = k_f + 1.5 * (self.frequency / 925 - 1)

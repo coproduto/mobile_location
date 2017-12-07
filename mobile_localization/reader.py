@@ -34,7 +34,8 @@ def make_measurement(measurement_dict):
       'RSSI_2': float(measurement_dict['RSSI_2']),
       'RSSI_3': float(measurement_dict['RSSI_3']),
       'RSSI_4': float(measurement_dict['RSSI_4']),
-      'RSSI_5': float(measurement_dict['RSSI_5'])
+      'RSSI_5': float(measurement_dict['RSSI_5']),
+      'RSSI_6': float(measurement_dict['RSSI_6'])
     }
     return Result(success=True, value=pd.Series(converted_dict))
   except (ValueError, TypeError) as e:

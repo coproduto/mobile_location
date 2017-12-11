@@ -1,6 +1,6 @@
-==============================
-Mobile Localization Algorithms
-==============================
+=====================================
+Mobile Device Location Algorithms
+=====================================
 This project contains implementations of many common
-algorithms for localizing mobile devices within a mobile
+path loss-based algorithms for localizing mobile devices within a mobile
 communications network.
